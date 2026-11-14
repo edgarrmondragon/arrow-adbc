@@ -58,3 +58,6 @@ xfail_strict = true
 [tool.setuptools]
 packages = ["adbc_driver_manager"]
 py-modules = ["adbc_driver_manager"]
+
+[tool.mypy]
+follow_untyped_imports = true

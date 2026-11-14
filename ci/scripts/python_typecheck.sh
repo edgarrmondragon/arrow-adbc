@@ -41,6 +41,16 @@ main() {
         if ! pyright ${PYRIGHT_OPTIONS} "${source_dir}/python/adbc_driver_manager"; then
             status=1
         fi
+
+        # Ensure the .pyi stubs match the compiled extension modules
+        if ! (cd "${source_dir}/python/adbc_driver_manager" &&
+              python -m mypy.stubtest \
+                  --mypy-config-file pyproject.toml \
+                  --allowlist stubtest_allowlist.txt \
+                  adbc_driver_manager._lib \
+                  adbc_driver_manager._reader); then
+            status=1
+        fi
     fi
 
     if [[ "${BUILD_DRIVER_POSTGRESQL}" -gt 0 ]]; then
