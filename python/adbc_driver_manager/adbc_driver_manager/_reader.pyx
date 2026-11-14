@@ -76,9 +76,14 @@ class AdbcRecordBatchReader(pyarrow.RecordBatchReader):
     def __exit__(self, exc_info, exc_val, exc_tb):
         pass
 
+    # https://github.com/apache/arrow/blob/dd619adc4fd5fbaef71cc8e82c9a8e27c4b52b1b/python/pyarrow/ipc.pxi#L753-L796
+
     def __iter__(self):
+        return self
+
+    def __next__(self):
         try:
-            yield from self._reader
+            return self.read_next_batch()
         except Exception as e:
             self._helper.check_error(e)
 
