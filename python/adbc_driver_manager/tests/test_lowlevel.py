@@ -674,3 +674,24 @@ def test_driver_path() -> None:
             driver=pathlib.Path("/tmp/thisdriverdoesnotexist")
         ):
             pass
+
+
+@pytest.mark.parametrize(
+    ("obj", "signature"),
+    [
+        pytest.param(
+            adbc_driver_manager.AdbcStatement.set_sql_query,
+            "set_sql_query(self, query: str) -> None",
+            id="AdbcStatement.set_sql_query",
+        ),
+        pytest.param(
+            adbc_driver_manager.AdbcConnection.set_autocommit,
+            "set_autocommit(self, enabled: bool) -> None",
+            id="AdbcConnection.set_autocommit",
+        ),
+    ],
+)
+def test_embedded_signatures(obj: object, signature: str) -> None:
+    docstring = obj.__doc__
+    assert docstring is not None
+    assert docstring.startswith(signature)

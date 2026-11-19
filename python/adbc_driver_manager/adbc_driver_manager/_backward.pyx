@@ -17,6 +17,8 @@
 
 # cython: language_level = 3
 # cython: freethreading_compatible=True
+# cython: embedsignature = True
+# cython: embedsignature.format = python
 
 """
 For debugging, install crash handlers that print a backtrace.
